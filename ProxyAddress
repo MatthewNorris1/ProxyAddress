@@ -1,0 +1,37 @@
+ self.showWinner = function () {
+  // who has the most points?
+  let team_data = {};
+  for (let team_name of self.teams)
+    team_data[team_name] = 0;
+  for (let action of self.actions) {
+    
+    if (self.rounds[self.current.round].indexOf(action.category) === -1)
+      continue;
+     
+    if (action.correct)
+      team_data[action.team] += action.difficulty;
+    else
+      team_data[action.team] -= action.difficulty;
+  }
+  let name;
+  let points = -99999;
+  for (let team_name in team_data) {
+    if (team_data[team_name] > points) {
+      points = team_data[team_name];
+      name = team_name;
+    }
+  }
+
+  // show screen
+  $("#overlay").show();
+  $("#overlay > *").hide();
+  $("#overlay #winner").show();
+  $("#winner .text").text(name + " (" + points + " pt)");
+
+  // reset game
+  self.teams = [];
+};
+ if (self.current.round !== undefined && answered_questions === 4) {
+    setTimeout(self.showWinner, 10);
+    return;
+  }
